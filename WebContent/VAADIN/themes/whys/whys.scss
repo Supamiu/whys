@@ -1,0 +1,217 @@
+// Global variable overrides. Must be declared before importing Valo.
+
+// Defines the plaintext font size, weight and family. Font size affects general component sizing.
+//$v-font-size: 16px;
+//$v-font-weight: 300;
+//$v-font-family: "Open Sans", sans-serif;
+
+// Defines the border used by all components.
+//$v-border: 1px solid (v-shade 0.7);
+//$v-border-radius: 4px;
+
+// Affects the color of some component elements, e.g Button, Panel title, etc
+//$v-background-color: hsl(210, 0%, 98%);
+// Affects the color of content areas, e.g  Panel and Window content, TextField input etc
+//$v-app-background-color: $v-background-color;
+
+// Affects the visual appearance of all components
+//$v-gradient: v-linear 8%;
+//$v-bevel-depth: 30%;
+//$v-shadow-opacity: 5%;
+
+// Defines colors for indicating status (focus, success, failure)
+//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
+//$v-friendly-color: #2c9720;
+//$v-error-indicator-color: #ed473b;
+
+// For more information, see: https://vaadin.com/book/-/page/themes.valo.html
+// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
+
+$v-app-loading-text: "WHYS";
+/* Metro
+$v-font-family: "Source Sans Pro", sans-serif;
+$v-app-background-color: #fff;
+$v-background-color: #eee;
+$v-focus-color: #0072C6;
+$v-focus-style: 0 0 0 1px $v-focus-color;
+$valo-menu-background-color: darken($v-focus-color, 10%);
+$v-border: 0 solid v-shade;
+$v-border-radius: 0px;
+$v-bevel: false;
+$v-gradient: false;
+$v-shadow: false;
+$v-textfield-bevel: false;
+$v-textfield-shadow: false;
+$v-textfield-border: 1px solid v-shade;
+$v-link-text-decoration: none;
+$v-overlay-shadow: 0 0 0 2px #000;
+$v-overlay-border-width: 2px; // For IE8
+$v-window-shadow: $v-overlay-shadow;
+$v-selection-overlay-background-color: #fff;
+$v-selection-overlay-padding-horizontal: 0;
+$v-selection-overlay-padding-vertical: 6px;
+$v-panel-border: 2px solid v-shade;
+*/
+
+$v-background-color: hsl(0, 0, 99.5%);
+$v-app-background-color: #393939;
+$v-focus-color: hsl(218, 80%, 60%);
+$v-border: 1px solid (v-shade 0.6);
+$v-border-radius: 3px;
+$v-bevel: inset 0 1px 0 v-tint;
+$v-textfield-bevel: false;
+$v-gradient: v-linear 3%;
+$v-shadow: false;
+$valo-menu-background-color: hsl(218, 20%, 98%);
+$v-friendly-color: hsl(163, 61%, 41%);
+$v-error-indicator-color: hsl(349, 66%, 56%);
+
+
+@import "../valo/valo.scss";
+
+@mixin whys {
+  @include valo;
+	
+	.adminItem{
+		color: $v-app-background-color;
+		background: #f9f9f9;
+		border-radius: 3px;
+	}
+	
+	.adminItem:hover{
+		box-shadow: 0px 0px 10px 0px #FFFFFF;
+	}
+	
+	.fixed-width-caption .v-caption { 
+		width: 40px 
+	}
+	
+	.tests-valo-light .valo-menu .valo-menu-title {
+	  	background: $v-app-background-color;
+	  	color: $v-selection-color;
+	  	text-shadow: none;
+	  	border-color: first-color(valo-border($color: $v-app-background-color, $strength: 0.5));
+	}
+	
+	/*changements pour dashboard -> tabsheet liste des sites*/ 
+	.v-tabsheet-framed  > .v-tabsheet-tabcontainer .v-tabsheet-tabitem-selected .v-caption {
+		color: #f9f9f9;
+		font-size: 14px;
+		font-weight: bold;
+		background: #7ecffe;
+		border-radius: 0px;
+		border-color: #cacaca;
+		border: none;
+		border-bottom: 1px solid;
+		padding-bottom: 1px;
+		cursor: default;
+	}
+	
+	.v-tabsheet-framed > .v-tabsheet-content > div{
+		background: #f9f9f9;
+	}
+	.v-tabsheet-framed > .v-tabsheet-content{
+		border: none;
+	}
+	
+	.v-menubar-borderless .v-menubar-menuitem{
+		color: #7ecffe;
+	}
+	
+	.v-label-success, .v-label-failure{
+		color: #393939;
+		background: #f9f9f9;
+	}
+	
+	/* pour les siteLayouts */
+	.v-panel-caption.v-panel-caption-well.v-panel-caption-sitepanel{
+		background: #7ecffe;
+		color: #f9f9f9;
+		text-weight: bold;
+		text-align: center;
+		cursor: pointer;
+	}
+	
+	.v-panel-content.v-panel-content-well.v-panel-content-sitepanel{
+		cursor: pointer;
+	}
+	
+	.v-panel.v-widget.well.v-panel-well.sitepanel.v-panel-sitepanel:hover{
+		box-shadow: 0px 0px 10px 0px #393939;
+	}
+	
+	/* Pour le panel d'informations détaillées dans la vue du site */	
+	.v-panel-caption.v-panel-caption-well.v-panel-caption-detailedinformations{
+		background: #7ecffe;
+		color: #f9f9f9;
+		text-weight: bold;
+		text-align: center;
+	}
+	
+	/* Boutton link plus réaliste */
+	.v-button.v-button-link,
+	.v-button.v-button-link:focus,
+	.v-button.v-button-link:active,
+	.v-button-link.v-pressed,
+	.v-disabled.v-button.v-button-link,
+	.v-button.v-button-link .v-button-wrap,
+	.v-button.v-button-link:focus .v-button-wrap,
+	.v-button.v-button-link:active .v-button-wrap,
+	.v-button-link.v-pressed .v-button-wrap,
+	.v-disabled.v-button.v-button-link .v-button-wrap {
+	        background: transparent;
+	        height: auto;
+	        padding: 0;
+	        cursor: pointer;
+	        line-height: inherit;
+	        text-decoration: none;
+	        color: #4783eb;
+	}
+	
+	.v-button.v-button-link.v-disabled,
+	.v-button.v-button-link.v-disabled .v-button-wrap {
+	        cursor: default;
+	        text-decoration: none;
+	        color: #4783eb;
+ 	}
+	        
+	.v-button-link .v-button-caption,
+	.v-nativebutton-link .v-nativebutton-caption {
+	        line-height: inherit;
+	        font-weight: normal;
+	        color: #4783eb;
+	        font-size: 14px;
+	        text-shadow: none;
+	        text-decoration: none;
+ 	}	
+ 	
+ 	.v-menubar > .v-menubar-menuitem .v-icon{
+ 		color: #fcb08e;
+ 	}
+ 	
+ 	/* icones sociales */
+ 	.v-label.v-widget.sociallabel.v-label-sociallabel.v-label-undef-w{
+ 		font-size: 25px;
+ 		color: #fcb08e;
+ 	}
+ 	
+ 	/* Centrage du terme "identification" sur la page de login */
+ 	
+ 	.v-panel-caption.v-panel-caption-login {
+ 		text-align: center;
+ 	}
+ 	
+ 	.v-tabsheet-tabsheetpanel > .v-scrollable > .v-widget {
+ 		color:#393939;
+ 	}
+ 	
+ 	
+	.panel-centered-title{
+		text-align: center;
+	}
+	
+	.button-reset{
+	
+	}
+ 	
+}

